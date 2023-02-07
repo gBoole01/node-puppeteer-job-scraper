@@ -1,3 +1,5 @@
+const CRAWL_SPEED = 1000
+
 const scraperObject = {
     async scraper(browser, query, location, remote) {
         const remoteAttr = remote ? '&sc=0kf%3Aattr(DSQF7)%3B' : ''
@@ -59,7 +61,7 @@ const scraperObject = {
                 let currentPageData = await pagePromise(urls[index])
                 console.log(`${parseInt(index) + 1} / ${urls.length} scraped..`)
                 scrapedData.push(currentPageData)
-                await new Promise(resolve => setTimeout(resolve, 1000))
+                await new Promise(resolve => setTimeout(resolve, CRAWL_SPEED))
             }
 
             let nextPageExist = false
