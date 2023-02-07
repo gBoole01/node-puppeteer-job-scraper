@@ -1,0 +1,10 @@
+{
+  "name": "node-puppeteer-job-scraper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "gBoole01 <68549849+gBoole01@users.noreply.github.com>",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^19.6.3"
+  }
+}
