@@ -4,12 +4,12 @@ const scraperObject = {
         let scrapedData = []
 
         const remoteAttr = remote ? '&sc=0kf%3Aattr(DSQF7)%3B' : ''
-        const jobQuery = `https://fr.indeed.com/emplois?q=${query}&l=${location}${remoteAttr}`
+        const jobQuery = `https://fr.indeed.com/emplois?q=${query}&l=${location}${remoteAttr}&fromage=7`
 
         let page = await browser.newPage()
         let pageCounter = 1
-        console.info(`⛵ Navigating to ${jobQuery}...`)
-        await page.goto(jobQuery)
+        console.info(`⛵ Navigating to "${jobQuery}"...`)
+        await page.goto(jobQuery, { waitUntil: 'networkidle2' })
 
         async function scrapeCurrentPage() {
             await page.waitForSelector('#jobsearch-JapanPage')
