@@ -11,13 +11,13 @@ async function scrapeAll(browserInstance) {
         const fileName = `data-${(new Date()).toISOString().replace(/:/g, '-').slice(0, -5)}Z`
         fs.writeFile(`output/${fileName}.json`, JSON.stringify(scrapedData), 'utf8', function (err) {
             if (err) {
-                return console.log(err);
+                return console.error(`❌ ${err}`);
             }
-            console.log(`The data has been scraped and saved successfully! View it at './output/${fileName}.json'`);
+            console.log(`✅ The data has been scraped and saved successfully! View it at './output/${fileName}.json'`);
         });
     }
     catch (err) {
-        console.log("Could not resolve the browser instance => ", err);
+        console.error("❌ Could not resolve the browser instance => ", err);
     }
 }
 
