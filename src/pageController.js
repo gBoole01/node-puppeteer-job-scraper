@@ -3,9 +3,14 @@ const fs = require('fs');
 async function scrapeAll(browserInstance) {
     try {
         const browser = await browserInstance;
-        let scrapedData = {}
-        scrapedData['bordeaux'] = await pageScraper.scraper(browser, 'developpeur+web', 'Bordeaux+%2833%29', false);
-        scrapedData['remote'] = await pageScraper.scraper(browser, 'developpeur+web', 'France', true);
+        let scrapedData = {
+            linkedin: {},
+            indeed: {}
+        }
+        scrapedData.linkedin['bordeaux'] = await pageScraper.linkedinScraper(browser, 'developpeur+web', 'Bordeaux%2C%20Nouvelle-Aquitaine%2C%20France', false);
+        scrapedData.indeed['bordeaux'] = await pageScraper.indeedScraper(browser, 'developpeur+web', 'Bordeaux+%2833%29', false);
+        scrapedData.linkedin['remote'] = await pageScraper.linkedinScraper(browser, 'developpeur+web', 'France', true);
+        scrapedData.indeed['remote'] = await pageScraper.indeedScraper(browser, 'developpeur+web', 'France', true);
         await browser.close()
 
         const fileName = `data-${(new Date()).toISOString().replace(/:/g, '-').slice(0, -5)}Z`
