@@ -1,6 +1,6 @@
-const browserObject = require('./browser');
-const scraperController = require('./pageController');
+import startBrowser from './browser.js'
+import scraperController from './pageController.js'
 
-let browserInstance = browserObject.startBrowser();
+let browserInstance = startBrowser();
 
 scraperController(browserInstance)
