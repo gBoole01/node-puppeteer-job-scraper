@@ -10,17 +10,21 @@ export const scraperObject = {
 
         let page = await browser.newPage()
         let pageCounter = 1
+        let pageTotal = 0
         let jobCount = 0
-        process.stdout.write(`⛵ Navigating to "${jobQuery}"... \n`)
+        process.stdout.write(`\n⛵ Navigating to "${jobQuery}"... \n`)
         await page.goto(jobQuery, { waitUntil: 'networkidle2' })
 
 
         async function scrapeCurrentPage() {
             await page.waitForSelector('#jobsearch-JapanPage')
-            if (pageCounter = 1) jobCount = await page.$eval('.jobsearch-JobCountAndSortPane-jobCount', text => parseInt(text.textContent.split(' ')[0]))
             const urls = await page.$$eval('a.jcs-JobTitle', links => {
                 return links.map(link => link.href)
             })
+            if (pageCounter == 1) {
+                jobCount = await page.$eval('.jobsearch-JobCountAndSortPane-jobCount', text => parseInt(text.textContent.split(' ')[0]))
+                pageTotal = Math.ceil(jobCount / urls.length)
+            }
 
             let pagePromise = (link) => new Promise(async (resolve, reject) => {
                 let job = {}
@@ -32,7 +36,8 @@ export const scraperObject = {
                         await newPage.$eval('#challenge-running', text => text.textContent)
                         process.stdout.write(`🤖 Bot detection triggered, entering sleep mode for ${SLEEP_TIME / 1000}s..`)
                         await new Promise(resolve => setTimeout(resolve, SLEEP_TIME))
-                        process.stdout.write('⏰ Leaving sleep mode..')
+                        eraseLine()
+                        process.stdout.write('⏰ Leaving sleep mode..\n')
 
                         await newPage.close()
                         newPage = await browser.newPage()
@@ -81,7 +86,7 @@ export const scraperObject = {
                 eraseLine()
                 eraseLastLine()
             }
-            process.stdout.write(`⌛ Scraping Page ${pageCounter}/${jobCount > 0 ? Math.ceil(jobCount / urls.length) : '??'} (${urls.length} jobs)\n`)
+            process.stdout.write(`⌛ Scraping Page ${pageCounter}/${pageTotal} (${urls.length} jobs)\n`)
             for (let index in urls) {
                 let currentPageData = await pagePromise(urls[index])
                 if (index > 0) eraseLine()
@@ -123,7 +128,7 @@ export const scraperObject = {
         let jobQuery = `https://fr.linkedin.com/jobs/search?keywords=${query}&location=${location}&locationId=&f_TPR=r604800&distance=25${remoteAttr}&position=1&pageNum=0`
 
         let page = await browser.newPage()
-        process.stdout.write(`⛵ Navigating to "${jobQuery}"...\n`)
+        process.stdout.write(`\n⛵ Navigating to "${jobQuery}"...\n`)
         await page.goto(jobQuery, { waitUntil: 'networkidle2' })
 
         const jobCount = await page.$eval('.results-context-header__job-count', text => text.textContent)

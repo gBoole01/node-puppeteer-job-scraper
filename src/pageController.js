@@ -7,10 +7,10 @@ async function scrapeAll(browserInstance) {
             linkedin: {},
             indeed: {}
         }
-        // scrapedData.linkedin['bordeaux'] = await pageScraper.linkedinScraper(browser, 'developpeur+web', 'Bordeaux%2C%20Nouvelle-Aquitaine%2C%20France', false);
+        scrapedData.linkedin['bordeaux'] = await pageScraper.linkedinScraper(browser, 'developpeur+web', 'Bordeaux%2C%20Nouvelle-Aquitaine%2C%20France', false);
         scrapedData.indeed['bordeaux'] = await pageScraper.indeedScraper(browser, 'developpeur+web', 'Bordeaux+%2833%29', false);
-        // scrapedData.linkedin['remote'] = await pageScraper.linkedinScraper(browser, 'developpeur+web', 'France', true);
-        // scrapedData.indeed['remote'] = await pageScraper.indeedScraper(browser, 'developpeur+web', 'France', true);
+        scrapedData.linkedin['remote'] = await pageScraper.linkedinScraper(browser, 'developpeur+web', 'France', true);
+        scrapedData.indeed['remote'] = await pageScraper.indeedScraper(browser, 'developpeur+web', 'France', true);
         await browser.close()
 
         const fileName = `data-${(new Date()).toISOString().replace(/:/g, '-').slice(0, -5)}Z`
